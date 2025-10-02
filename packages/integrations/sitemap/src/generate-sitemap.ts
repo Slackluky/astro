@@ -12,10 +12,10 @@ export function generateSitemap(pages: string[], finalSiteUrl: string, opts?: Si
 	const lastmod = lastmodSrc?.toISOString();
 
 	// Parse URLs for i18n matching later
-	const { defaultLocale, locales, xDefault } = i18n ?? {};
+	const { defaultLocale, locales, xDefault, prefixDefaultLocale } = i18n ?? {};
 	let getI18nLinks: GetI18nLinks | undefined;
 	if (defaultLocale && locales) {
-		getI18nLinks = createGetI18nLinks(urls, defaultLocale, locales, finalSiteUrl, xDefault);
+		getI18nLinks = createGetI18nLinks(urls, defaultLocale, locales, finalSiteUrl, xDefault, prefixDefaultLocale);
 	}
 
 	const urlData: SitemapItem[] = urls.map((url, i) => ({
@@ -36,7 +36,8 @@ function createGetI18nLinks(
 	defaultLocale: string,
 	locales: Record<string, string>,
 	finalSiteUrl: string,
-	xDefault?: boolean
+	xDefault?: boolean,
+	prefixDefaultLocale?: boolean
 ): GetI18nLinks {
 	// `parsedI18nUrls` will have the same length as `urls`, matching correspondingly
 	const parsedI18nUrls = urls.map((url) => parseI18nUrl(url, defaultLocale, locales, finalSiteUrl));
@@ -64,7 +65,7 @@ function createGetI18nLinks(
 						url: urls[i],
 						lang: 'x-default',
 					});
-					continue
+					if (prefixDefaultLocale) continue
 				}
 				links.push({
 					url: urls[i],
