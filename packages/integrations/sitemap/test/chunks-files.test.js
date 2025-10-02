@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { before, describe, it } from 'node:test';
-import { sitemap } from './fixtures/static/deps.mjs';
+import { sitemap } from './fixtures/chunks/deps.mjs';
 import { loadFixture, readXML } from './test-utils.js';
 
 describe('Sitemap with chunked files', () => {
