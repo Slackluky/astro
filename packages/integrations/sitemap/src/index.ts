@@ -24,9 +24,9 @@ export type SitemapOptions =
 		filter?(page: string): boolean;
 		customSitemaps?: string[];
 		customPages?: string[];
-
 		i18n?: {
 			defaultLocale: string;
+			xDefault?: boolean;
 			locales: Record<string, string>;
 		};
 		// number of entries per sitemap file
