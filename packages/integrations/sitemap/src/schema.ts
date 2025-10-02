@@ -17,6 +17,7 @@ export const SitemapOptionsSchema = z
 			.object({
 				defaultLocale: localeKeySchema,
 				xDefault: z.boolean().optional(),
+				prefixDefaultLocale: z.boolean().optional(),
 				locales: z.record(
 					localeKeySchema,
 					z
