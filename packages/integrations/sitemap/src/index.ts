@@ -27,6 +27,7 @@ export type SitemapOptions =
 		i18n?: {
 			defaultLocale: string;
 			xDefault?: boolean;
+			prefixDefaultLocale?: boolean;
 			locales: Record<string, string>;
 		};
 		// number of entries per sitemap file
