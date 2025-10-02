@@ -1,6 +1,7 @@
 interface ParsedI18nUrl {
 	locale: string;
 	path: string;
+	prefixed?: boolean
 }
 
 // NOTE: The parameters have been schema-validated with Zod
@@ -35,7 +36,7 @@ export function parseI18nUrl(
 		if (!path) {
 			path = '/';
 		}
-		return { locale, path };
+		return { locale, path, prefixed: true };
 	}
 
 	return { locale: defaultLocale, path: s };
