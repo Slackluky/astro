@@ -12,10 +12,10 @@ export function generateSitemap(pages: string[], finalSiteUrl: string, opts?: Si
 	const lastmod = lastmodSrc?.toISOString();
 
 	// Parse URLs for i18n matching later
-	const { defaultLocale, locales } = i18n ?? {};
+	const { defaultLocale, locales, xDefault } = i18n ?? {};
 	let getI18nLinks: GetI18nLinks | undefined;
 	if (defaultLocale && locales) {
-		getI18nLinks = createGetI18nLinks(urls, defaultLocale, locales, finalSiteUrl);
+		getI18nLinks = createGetI18nLinks(urls, defaultLocale, locales, finalSiteUrl, xDefault);
 	}
 
 	const urlData: SitemapItem[] = urls.map((url, i) => ({
@@ -36,6 +36,7 @@ function createGetI18nLinks(
 	defaultLocale: string,
 	locales: Record<string, string>,
 	finalSiteUrl: string,
+	xDefault?: boolean
 ): GetI18nLinks {
 	// `parsedI18nUrls` will have the same length as `urls`, matching correspondingly
 	const parsedI18nUrls = urls.map((url) => parseI18nUrl(url, defaultLocale, locales, finalSiteUrl));
@@ -58,6 +59,13 @@ function createGetI18nLinks(
 		for (let i = 0; i < parsedI18nUrls.length; i++) {
 			const parsed = parsedI18nUrls[i];
 			if (parsed?.path === i18nUrl.path) {
+				if ((parsed?.locale === defaultLocale && !parsed.prefixed) && !!xDefault) {
+					links.push({
+						url: urls[i],
+						lang: 'x-default',
+					});
+					continue
+				}
 				links.push({
 					url: urls[i],
 					lang: locales[parsed.locale],
